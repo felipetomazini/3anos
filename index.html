@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3 Anos de Namoro | Isabella</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #fff7fb;
+      --bg-2: #ffe4ef;
+      --bg-3: #fbcfe8;
+      --accent: #e11d48;
+      --accent-dark: #be123c;
+      --text: #4c1d2b;
+      --card: rgba(255, 255, 255, 0.55);
+      --border: rgba(255, 255, 255, 0.65);
+      --shadow: 0 20px 80px rgba(190, 24, 93, 0.15);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.9), rgba(252,231,243,0.96) 35%, rgba(244,114,182,0.20) 72%, rgba(251,113,133,0.10)),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg-orb, .floating-heart {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.7;
+    }
+
+    .orb-1 {
+      width: 260px;
+      height: 260px;
+      background: rgba(251, 207, 232, 0.75);
+      top: -40px;
+      left: -60px;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+
+    .orb-2 {
+      width: 320px;
+      height: 320px;
+      background: rgba(244, 114, 182, 0.25);
+      top: 140px;
+      right: -100px;
+      animation: drift 22s ease-in-out infinite alternate-reverse;
+    }
+
+    .orb-3 {
+      width: 320px;
+      height: 320px;
+      background: rgba(253, 224, 71, 0.18);
+      bottom: -110px;
+      left: 18%;
+      animation: drift 24s ease-in-out infinite alternate;
+    }
+
+    .floating-heart {
+      color: rgba(225, 29, 72, 0.16);
+      font-size: 1.2rem;
+      filter: none;
+      animation: floatUp 14s linear infinite;
+      user-select: none;
+    }
+
+    .heart-1 { left: 8%; bottom: -10%; animation-delay: 0s; }
+    .heart-2 { left: 22%; bottom: -15%; animation-delay: 4s; font-size: 1.4rem; }
+    .heart-3 { left: 51%; bottom: -12%; animation-delay: 8s; font-size: 1.1rem; }
+    .heart-4 { left: 76%; bottom: -18%; animation-delay: 2s; font-size: 1.5rem; }
+    .heart-5 { left: 90%; bottom: -14%; animation-delay: 6s; font-size: 1rem; }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 18px 40px;
+    }
+
+    .hero,
+    .card,
+    .footer {
+      margin-top: 22px;
+      border-radius: 28px;
+      padding: 24px;
+      text-align: center;
+      animation: fadeUp 0.9s ease 0.4s both;
+    }
+
+    .movie-end {
+      position: relative;
+      margin-top: 22px;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.7);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.88), rgba(254,226,226,0.74) 42%, rgba(244,114,182,0.28) 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,241,245,0.88));
+      box-shadow: 0 24px 80px rgba(190, 24, 93, 0.18);
+      padding: 34px 22px;
+    }
+
+    .movie-glow {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      filter: blur(60px);
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .movie-glow-left {
+      left: -40px;
+      top: -30px;
+      background: rgba(244, 114, 182, 0.28);
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+
+    .movie-glow-right {
+      right: -30px;
+      bottom: -40px;
+      background: rgba(251, 191, 36, 0.18);
+      animation: drift 24s ease-in-out infinite alternate-reverse;
+    }
+
+    .movie-stage {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .movie-kicker {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.38em;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #ec4899;
+    }
+
+    .movie-stage h2 {
+      margin: 14px 0 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.06;
+      color: #3f0f22;
+    }
+
+    .movie-timeline {
+      display: grid;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .movie-scene {
+      opacity: 0.35;
+      transform: translateY(10px) scale(0.985);
+      transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.7s ease, background 0.7s ease;
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.48);
+      border: 1px solid rgba(255,255,255,0.65);
+      box-shadow: 0 10px 24px rgba(190, 24, 93, 0.08);
+    }
+
+    .movie-scene.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 18px 36px rgba(190, 24, 93, 0.14);
+    }
+
+    .scene-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(225, 29, 72, 0.09);
+      color: #be123c;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .movie-scene p {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.9;
+      color: rgba(76, 29, 43, 0.88);
+    }
+
+    .movie-bar {
+      margin: 28px auto 0;
+      width: min(100%, 540px);
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.65);
+      overflow: hidden;
+      border: 1px solid rgba(251, 113, 133, 0.18);
+      box-shadow: inset 0 1px 6px rgba(0,0,0,0.04);
+    }
+
+    .movie-progress {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #fb7185, #f472b6, #f59e0b);
+      box-shadow: 0 0 18px rgba(225, 29, 72, 0.22);
+      transition: width 1.2s ease;
+    }
+
+    .movie-quote {
+      margin: 26px auto 0;
+      max-width: 720px;
+      padding: 22px 20px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 14px 30px rgba(190, 24, 93, 0.08);
+    }
+
+    .movie-quote-mark {
+      display: block;
+      font-size: 1.8rem;
+      color: #ec4899;
+      line-height: 1;
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .movie-quote p {
+      margin: 8px 0 0;
+      font-size: 1.15rem;
+      line-height: 1.95;
+      color: rgba(76, 29, 43, 0.9);
+    }
+
+    .movie-credit {
+      margin-top: 18px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #be123c;
+      font-size: 0.82rem;
+    }
+
+    .hero {
+      border-radius: 32px;
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: -40% -30%;
+      background: linear-gradient(120deg, transparent 38%, rgba(255,255,255,0.42) 50%, transparent 62%);
+      transform: translateX(-60%) rotate(8deg);
+      animation: shimmer 7s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #9f1239;
+      box-shadow: 0 6px 24px rgba(190, 24, 93, 0.08);
+      transform: translateY(0);
+      animation: badgePulse 5s ease-in-out infinite;
+    }
+
+    .badge:nth-child(2) { animation-delay: 1s; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 26px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #ec4899;
+      margin: 0 0 12px;
+      animation: fadeUp 0.9s ease 0.08s both;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      line-height: 1.02;
+      margin: 0;
+      color: #3f0f22;
+      max-width: 10ch;
+      animation: fadeUp 0.9s ease 0.16s both;
+    }
+
+    .lead {
+      margin: 22px 0 0;
+      max-width: 62ch;
+      font-size: 1.12rem;
+      line-height: 1.9;
+      color: rgba(76, 29, 43, 0.82);
+      animation: fadeUp 0.9s ease 0.24s both;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+      animation: fadeUp 0.9s ease 0.32s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 12px 30px rgba(225, 29, 72, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      box-shadow: 0 14px 36px rgba(225, 29, 72, 0.32);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.75);
+      color: #9f1239;
+      border: 1px solid rgba(244, 114, 182, 0.35);
+    }
+
+    .hero-panel {
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,241,245,0.88));
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.7);
+      animation: floatCard 7s ease-in-out infinite;
+    }
+
+    .hero-panel-inner {
+      border-radius: 22px;
+      padding: 24px 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(251, 207, 232, 0.7);
+      animation: glow 6s ease-in-out infinite;
+    }
+
+    .icon-circle {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 14px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: #ffe4e6;
+      color: #e11d48;
+      font-size: 2rem;
+      box-shadow: inset 0 1px 10px rgba(255,255,255,0.7);
+      animation: pulse 3.2s ease-in-out infinite;
+    }
+
+    .hero-panel h2 {
+      margin: 0;
+      font-size: 1.9rem;
+      line-height: 1.15;
+      color: #3f0f22;
+    }
+
+    .hero-panel p {
+      margin: 14px 0 0;
+      line-height: 1.9;
+      color: rgba(76, 29, 43, 0.8);
+    }
+
+    .section-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border-radius: 28px;
+      padding: 24px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 60px rgba(190, 24, 93, 0.18);
+    }
+
+    .card .mini-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(225, 29, 72, 0.08);
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin-bottom: 14px;
+      animation: iconFloat 4.5s ease-in-out infinite;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #3f0f22;
+    }
+
+    .card p {
+      margin: 12px 0 0;
+      line-height: 1.9;
+      color: rgba(76, 29, 43, 0.8);
+    }
+
+    .main-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .message {
+      padding: 30px;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(225, 29, 72, 0.09);
+      color: #be123c;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      animation: labelShine 4s ease-in-out infinite;
+    }
+
+    .message h2 {
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.08;
+      margin: 0;
+      color: #3f0f22;
+    }
+
+    .message .text {
+      margin-top: 18px;
+      font-size: 1.05rem;
+      line-height: 2;
+      color: rgba(76, 29, 43, 0.85);
+    }
+
+    .final-box {
+      margin-top: 22px;
+      background: rgba(255, 241, 242, 0.9);
+      border: 1px solid rgba(251, 113, 133, 0.22);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(190, 24, 93, 0.08);
+      animation: softBeat 4.8s ease-in-out infinite;
+    }
+
+    .final-box small {
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      font-weight: 800;
+      color: #ec4899;
+    }
+
+    .final-box p {
+      margin: 12px 0 0;
+      font-size: 1.18rem;
+      line-height: 1.9;
+      color: #4c1d2b;
+    }
+
+    .photos {
+      display: grid;
+      gap: 18px;
+    }
+
+    .photo-card {
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.65);
+      background: rgba(255,255,255,0.25);
+      box-shadow: 0 16px 34px rgba(190, 24, 93, 0.1);
+      transition: transform 0.2s ease;
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+      transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.25s ease;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 22px 42px rgba(190, 24, 93, 0.16);
+    }
+
+    .photo-card.is-visible,
+    .card.is-visible,
+    .message.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .photo-placeholder {
+      aspect-ratio: 4 / 5;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 26px;
+      background: linear-gradient(135deg, #fff1f2, #fde68a);
+      color: #881337;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-placeholder::before {
+      content: "";
+      position: absolute;
+      inset: -30% -20%;
+      background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 60%);
+      animation: shimmer 8s ease-in-out infinite;
+    }
+
+    .photo-placeholder > div { position: relative; z-index: 1; }
+
+    .photo-placeholder .camera {
+      width: 74px;
+      height: 74px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 14px;
+      background: rgba(255,255,255,0.65);
+      font-size: 1.8rem;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .photo-placeholder strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .photo-caption {
+      padding: 16px 18px;
+      border-top: 1px solid rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.35);
+      color: rgba(76, 29, 43, 0.86);
+    }
+
+    .footer {
+      margin-top: 22px;
+      border-radius: 28px;
+      padding: 24px;
+      text-align: center;
+      animation: fadeUp 0.9s ease 0.4s both;
+    }
+
+    .footer p:first-child {
+      margin: 0;
+      color: #ec4899;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      font-weight: 800;
+      font-size: 0.78rem;
+    }
+
+    .footer p:last-child {
+      margin: 12px 0 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.6;
+      color: #3f0f22;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to { transform: translate3d(20px, 18px, 0) scale(1.08); }
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.45; }
+      50% { transform: translateY(-55vh) translateX(18px) rotate(12deg); opacity: 0.22; }
+      100% { transform: translateY(-110vh) translateX(-8px) rotate(-10deg); opacity: 0; }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: translateX(-55%) rotate(8deg); opacity: 0.22; }
+      50% { transform: translateX(55%) rotate(8deg); opacity: 0.5; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0 rgba(225,29,72,0.0); }
+      50% { box-shadow: 0 0 30px rgba(225,29,72,0.08); }
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes labelShine {
+      0%, 100% { box-shadow: 0 0 0 rgba(225,29,72,0.0); }
+      50% { box-shadow: 0 0 24px rgba(225,29,72,0.09); }
+    }
+
+    @keyframes softBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.01); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .main-grid,
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 { max-width: none; }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 14px 12px 26px; }
+      .hero,
+      .card,
+      .footer { border-radius: 24px; }
+      .hero,
+      .message { padding: 20px; }
+      .buttons { flex-direction: column; }
+      .btn { width: 100%; }
+      .footer p:last-child { font-size: 1.22rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <div class="floating-heart heart-1">❤</div>
+  <div class="floating-heart heart-2">❤</div>
+  <div class="floating-heart heart-3">❤</div>
+  <div class="floating-heart heart-4">❤</div>
+  <div class="floating-heart heart-5">❤</div>
+
+  <main class="container">
+    <section class="hero reveal">
+      <div class="badges">
+        <span class="badge">💖 3 anos de namoro</span>
+        <span class="badge">✨ Isabella</span>
+      </div>
+
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Uma celebração para você</p>
+          <h1>Isabella, três anos ao seu lado ainda parecem o melhor começo da minha vida.</h1>
+          <p class="lead">
+            Este site foi feito para celebrar tudo o que você representa: sua inteligência,
+            sua beleza, sua presença marcante e a forma incrível como faz a vida ficar mais
+            bonita simplesmente por existir nela.
+          </p>
+
+          <div class="buttons">
+            <a class="btn btn-primary" href="#mensagem">Ler declaração</a>
+            <a class="btn btn-secondary" href="#fotos">Ver fotos</a>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="hero-panel-inner">
+            <div class="icon-circle">🎁</div>
+            <h2>Nosso amor</h2>
+            <p>
+              Três anos de carinho, parceria e admiração. Cada detalhe com você virou memória boa.
+              Cada dia ao seu lado virou motivo para agradecer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-grid">
+      <article class="card reveal">
+        <div class="mini-icon">✦</div>
+        <h3>O começo de tudo</h3>
+        <p>
+          Desde o primeiro momento, algo em você fez tudo parecer mais leve, mais bonito e mais verdadeiro.
+        </p>
+      </article>
+
+      <article class="card reveal">
+        <div class="mini-icon">✦</div>
+        <h3>O que eu admiro em você</h3>
+        <p>
+          Sua inteligência, sua beleza, sua sensibilidade e a forma única com que você ilumina qualquer ambiente.
+        </p>
+      </article>
+
+      <article class="card reveal">
+        <div class="mini-icon">✦</div>
+        <h3>Três anos depois</h3>
+        <p>
+          Hoje eu só tenho gratidão por cada sorriso, cada abraço e cada instante ao seu lado, Isabella.
+        </p>
+      </article>
+    </section>
+
+    <section id="mensagem" class="main-grid">
+      <article class="card message reveal">
+        <div class="section-label">💗 Declaração para Isabella</div>
+        <h2>Você é o meu lugar favorito no mundo.</h2>
+
+        <div class="text">
+          <p>
+            Isabella, nesses três anos eu aprendi que amar você é viver com mais calma,
+            mais alegria e muito mais sentido. Você é inteligente de um jeito admirável,
+            linda de um jeito encantador e importante de uma forma que eu nunca vou saber
+            explicar por completo.
+          </p>
+          <p>
+            Você transforma dias comuns em dias especiais, traz leveza para os momentos difíceis
+            e faz tudo ao redor parecer mais bonito. Sua presença me inspira, seu sorriso me acalma
+            e sua existência faz a minha vida ser muito melhor.
+          </p>
+          <p>
+            Obrigado por cada conversa, cada abraço, cada cuidado e cada instante que você me fez
+            sentir amado. Se eu pudesse resumir esses três anos em uma frase, seria: eu escolheria
+            você de novo, todos os dias.
+          </p>
+        </div>
+
+        <div class="final-box">
+          <small>Mensagem final</small>
+          <p>
+            Feliz 3 anos de namoro, meu amor. Isabella, você é rara, incrível e inesquecível.
+            Eu te amo muito.
+          </p>
+        </div>
+      </article>
+
+      <div id="fotos" class="photos">
+        <article class="photo-card reveal">
+          <div class="photo-placeholder">
+            <div>
+              <div class="camera">📷</div>
+              <strong>Foto 1</strong>
+              <div>Sua foto aqui</div>
+            </div>
+          </div>
+          <div class="photo-caption">Um momento especial de vocês</div>
+        </article>
+
+        <article class="photo-card reveal">
+          <div class="photo-placeholder">
+            <div>
+              <div class="camera">📷</div>
+              <strong>Foto 2</strong>
+              <div>Sua foto aqui</div>
+            </div>
+          </div>
+          <div class="photo-caption">Um sorriso que vale ouro</div>
+        </article>
+
+        <article class="photo-card reveal">
+          <div class="photo-placeholder">
+            <div>
+              <div class="camera">📷</div>
+              <strong>Foto 3</strong>
+              <div>Sua foto aqui</div>
+            </div>
+          </div>
+          <div class="photo-caption">Uma lembrança inesquecível</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="movie-end reveal" aria-label="Seção final estilo mini filme">
+      <div class="movie-glow movie-glow-left"></div>
+      <div class="movie-glow movie-glow-right"></div>
+
+      <div class="movie-stage">
+        <p class="movie-kicker">Final de filme</p>
+        <h2>Porque os melhores três anos ainda parecem só o começo.</h2>
+        <div class="movie-timeline">
+          <div class="movie-scene active" data-scene="0">
+            <span class="scene-label">Cena 1</span>
+            <p>Começou com uma conexão rara, daquelas que mudam o jeito de ver a vida.</p>
+          </div>
+          <div class="movie-scene" data-scene="1">
+            <span class="scene-label">Cena 2</span>
+            <p>Virou parceria, cuidado, admiração e um amor que cresce a cada dia.</p>
+          </div>
+          <div class="movie-scene" data-scene="2">
+            <span class="scene-label">Cena 3</span>
+            <p>E hoje eu só consigo pensar em como sou feliz por viver tudo isso com você, Isabella.</p>
+          </div>
+        </div>
+
+        <div class="movie-bar">
+          <div class="movie-progress"></div>
+        </div>
+
+        <div class="movie-quote">
+          <span class="movie-quote-mark">❝</span>
+          <p>
+            Se a nossa história fosse um filme, eu assistiria todas as cenas de novo sem pular nenhuma.
+          </p>
+        </div>
+
+        <div class="movie-credit">Com amor, hoje e sempre.</div>
+      </div>
+    </section>
+
+    <footer class="footer reveal">
+      <p>Feito com amor</p>
+      <p>Para Isabella, com todo o carinho do mundo.</p>
+    </footer>
+  </main>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    revealEls.forEach((el) => observer.observe(el));
+
+    // Mini filme final
+    const scenes = document.querySelectorAll('.movie-scene');
+    const progress = document.querySelector('.movie-progress');
+
+    function playMovie() {
+      let index = 0;
+      const total = scenes.length;
+      if (!total) return;
+
+      scenes.forEach((scene, i) => scene.classList.toggle('active', i === 0));
+      progress.style.width = '33%';
+
+      const timer = setInterval(() => {
+        scenes.forEach((scene, i) => scene.classList.toggle('active', i === index));
+        const pct = Math.min(((index + 1) / total) * 100, 100);
+        progress.style.width = pct + '%';
+        index += 1;
+
+        if (index >= total) {
+          clearInterval(timer);
+          setTimeout(() => {
+            scenes.forEach((scene) => scene.classList.remove('active'));
+            scenes[total - 1].classList.add('active');
+            progress.style.width = '100%';
+          }, 700);
+        }
+      }, 2600);
+    }
+
+    const movieSection = document.querySelector('.movie-end');
+    if (movieSection) {
+      const movieObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            playMovie();
+            movieObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.45 });
+      movieObserver.observe(movieSection);
+    }
+  </script>
+</body>
+</html>
